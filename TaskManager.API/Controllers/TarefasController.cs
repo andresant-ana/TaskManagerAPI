@@ -39,14 +39,14 @@ namespace TaskManager.API.Controllers
 
         // POST api/tarefas
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] TarefaInputModel novaTarefa)
+        public async Task<IActionResult> Post([FromBody] TarefaInputModel inputModel)
         {
-            var tarefa = new Tarefa(novaTarefa.Nome, novaTarefa.Detalhes);
-
+            var tarefa = new Tarefa(inputModel.Nome, inputModel.Detalhes);
             await _tarefasRepository.AdicionarAsync(tarefa);
 
-            return Created("", tarefa);
+            return CreatedAtAction(nameof(Get), new { id = tarefa.Id }, tarefa);
         }
+
 
         // PUT api/tarefas/{id}
         [HttpPut("{id}")]
